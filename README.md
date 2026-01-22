@@ -2,8 +2,6 @@
 
 A modern, responsive portfolio website for an AI/ML Engineer with dynamic content management, secure admin dashboard, and stunning animations.
 
-![Portfolio Preview](https://img.shields.io/badge/Status-Live-brightgreen) ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react) ![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript) ![Tailwind](https://img.shields.io/badge/Tailwind-4.1-06B6D4?logo=tailwindcss)
-
 ## ✨ Features
 
 ### Portfolio Sections
