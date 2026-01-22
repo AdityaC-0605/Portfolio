@@ -62,9 +62,6 @@ const SkillsForm = ({ skills, onSubmit, onCancel }: SkillsFormProps) => {
         setter(prev => prev.filter((_, i) => i !== index));
     };
 
-    const inputClass = "w-full bg-primary border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent transition-colors";
-    const labelClass = "block text-sm text-gray-400 mb-2";
-
     const TagSection = ({
         title,
         color,
