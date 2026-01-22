@@ -1,53 +1,68 @@
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import { Link } from "react-scroll";
-import { HERO_CONTENT, SOCIAL_LINKS } from "../utils/constants";
+import { useData } from "../context/DataContext";
 import { FaGithub, FaLinkedin, FaDownload } from "react-icons/fa";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 const TypingEffect = ({ words }: { words: string[] }) => {
-    const [index, setIndex] = useState(0);
-    const [subIndex, setSubIndex] = useState(0);
-    const [reverse, setReverse] = useState(false);
+    const [displayText, setDisplayText] = useState("");
     const [blink, setBlink] = useState(true);
+
+    const indexRef = useRef(0);
+    const subIndexRef = useRef(0);
+    const reverseRef = useRef(false);
 
     // Blinking cursor
     useEffect(() => {
-        const timeout2 = setTimeout(() => {
+        const interval = setInterval(() => {
             setBlink((prev) => !prev);
         }, 500);
-        return () => clearTimeout(timeout2);
-    }, [blink]);
+        return () => clearInterval(interval);
+    }, []);
 
-    // Typing logic
-    useEffect(() => {
-        if (index === words.length) return;
+    // Typing logic using refs to avoid setState in effect lint issues
+    const tick = useCallback(() => {
+        const index = indexRef.current;
+        const subIndex = subIndexRef.current;
+        const reverse = reverseRef.current;
+        const word = words[index];
 
-        if (subIndex === words[index].length + 1 && !reverse) {
-            setReverse(true);
+        if (subIndex === word.length + 1 && !reverse) {
+            reverseRef.current = true;
             return;
         }
 
         if (subIndex === 0 && reverse) {
-            setReverse(false);
-            setIndex((prev) => (prev + 1) % words.length);
+            reverseRef.current = false;
+            indexRef.current = (index + 1) % words.length;
             return;
         }
 
-        const timeout = setTimeout(() => {
-            setSubIndex((prev) => prev + (reverse ? -1 : 1));
-        }, Math.max(reverse ? 75 : subIndex === words[index].length ? 1000 : 150, parseInt((Math.random() * 350).toString())));
+        subIndexRef.current = subIndex + (reverse ? -1 : 1);
+        setDisplayText(words[indexRef.current].substring(0, subIndexRef.current));
+    }, [words]);
 
+    useEffect(() => {
+        const delay = reverseRef.current
+            ? 75
+            : subIndexRef.current === words[indexRef.current]?.length
+                ? 1000
+                : 150 + Math.random() * 100;
+
+        const timeout = setTimeout(tick, delay);
         return () => clearTimeout(timeout);
-    }, [subIndex, index, reverse, words]);
+    }, [displayText, tick, words]);
 
     return (
         <span className="text-accent font-bold">
-            {`${words[index].substring(0, subIndex)}${blink ? "|" : " "}`}
+            {`${displayText}${blink ? "|" : " "}`}
         </span>
     );
 };
 
+
 const Hero = () => {
+    const { heroContent, socialLinks } = useData();
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
 
@@ -91,13 +106,13 @@ const Hero = () => {
                 >
                     <h2 className="text-xl md:text-2xl font-light text-gray-300 mb-4">Hello, I'm</h2>
                     <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600 mb-6">
-                        {HERO_CONTENT.name}
+                        {heroContent.name}
                     </h1>
                     <h2 className="text-2xl md:text-4xl font-semibold text-gray-200 mb-8 h-12">
-                        I am a <TypingEffect words={HERO_CONTENT.roles} />
+                        I am a <TypingEffect words={heroContent.roles} />
                     </h2>
                     <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
-                        {HERO_CONTENT.description}
+                        {heroContent.description}
                     </p>
 
                     <div className="flex flex-col md:flex-row items-center justify-center gap-6">
@@ -129,10 +144,10 @@ const Hero = () => {
                     </div>
 
                     <div className="mt-12 flex justify-center gap-8 text-3xl text-gray-400">
-                        <a href={SOCIAL_LINKS.github} target="_blank" rel="noopener noreferrer" className="hover:text-white hover:scale-110 transition-all">
+                        <a href={socialLinks.github} target="_blank" rel="noopener noreferrer" className="hover:text-white hover:scale-110 transition-all">
                             <FaGithub />
                         </a>
-                        <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 hover:scale-110 transition-all">
+                        <a href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 hover:scale-110 transition-all">
                             <FaLinkedin />
                         </a>
                     </div>

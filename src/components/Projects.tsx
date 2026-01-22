@@ -1,9 +1,23 @@
 import { useState } from "react";
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "framer-motion";
-import { PROJECTS } from "../utils/constants";
-import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
+import { useData } from "../context/DataContext";
+import { useAuth } from "../context/AuthContext";
+import type { Project } from "../types";
+import { FaGithub, FaExternalLinkAlt, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
+import ProjectForm from "./admin/ProjectForm";
+import DeleteConfirmModal from "./admin/DeleteConfirmModal";
 
-const TiltCard = ({ project }: { project: any }) => {
+const TiltCard = ({
+    project,
+    isAdmin,
+    onEdit,
+    onDelete
+}: {
+    project: Project;
+    isAdmin: boolean;
+    onEdit: () => void;
+    onDelete: () => void;
+}) => {
     const x = useMotionValue(0);
     const y = useMotionValue(0);
 
@@ -44,14 +58,51 @@ const TiltCard = ({ project }: { project: any }) => {
             }}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className="bg-primary rounded-xl overflow-hidden border border-white/5 hover:border-accent/50 hover:shadow-lg hover:shadow-cyan-500/10 transition-all group perspective-1000"
+            className="bg-primary rounded-xl overflow-hidden border border-white/5 hover:border-accent/50 hover:shadow-lg hover:shadow-cyan-500/10 transition-all group perspective-1000 relative"
         >
-            {/* Image Placeholder */}
+            {/* Admin Controls */}
+            {isAdmin && (
+                <div className="absolute top-3 right-3 z-10 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onEdit();
+                        }}
+                        className="p-2 bg-blue-500/80 hover:bg-blue-500 text-white rounded-lg backdrop-blur-sm transition-colors"
+                        title="Edit project"
+                    >
+                        <FaEdit size={14} />
+                    </button>
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onDelete();
+                        }}
+                        className="p-2 bg-red-500/80 hover:bg-red-500 text-white rounded-lg backdrop-blur-sm transition-colors"
+                        title="Delete project"
+                    >
+                        <FaTrash size={14} />
+                    </button>
+                </div>
+            )}
+
+            {/* Image Placeholder or Actual Image */}
             <div
                 className="h-48 bg-gray-800 flex items-center justify-center relative overflow-hidden group-hover:bg-gray-750 transition-colors"
                 style={{ transform: "translateZ(20px)" }}
             >
-                <span className="text-gray-600 text-2xl font-bold group-hover:scale-110 transition-transform duration-500">{project.title}</span>
+                {project.image ? (
+                    <img
+                        src={project.image}
+                        alt={project.title}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = 'none';
+                        }}
+                    />
+                ) : (
+                    <span className="text-gray-600 text-2xl font-bold group-hover:scale-110 transition-transform duration-500">{project.title}</span>
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-primary to-transparent opacity-80" />
             </div>
 
@@ -70,12 +121,16 @@ const TiltCard = ({ project }: { project: any }) => {
                 </div>
 
                 <div className="flex gap-4">
-                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors">
-                        <FaGithub /> Code
-                    </a>
-                    <a href={project.demo} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-gray-300 hover:text-accent transition-colors">
-                        <FaExternalLinkAlt /> Demo
-                    </a>
+                    {project.github && (
+                        <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors">
+                            <FaGithub /> Code
+                        </a>
+                    )}
+                    {project.demo && (
+                        <a href={project.demo} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-gray-300 hover:text-accent transition-colors">
+                            <FaExternalLinkAlt /> Demo
+                        </a>
+                    )}
                 </div>
             </div>
         </motion.div>
@@ -83,13 +138,42 @@ const TiltCard = ({ project }: { project: any }) => {
 };
 
 const Projects = () => {
+    const { projects, addProject, updateProject, deleteProject } = useData();
+    const { isAdmin } = useAuth();
     const [filter, setFilter] = useState("All");
+    const [showForm, setShowForm] = useState(false);
+    const [editingProject, setEditingProject] = useState<Project | null>(null);
+    const [deleteTarget, setDeleteTarget] = useState<Project | null>(null);
 
-    const categories = ["All", "AI/ML", "NLP", "Full-stack"];
+    // Get unique categories from projects
+    const projectCategories = Array.from(new Set(projects.map(p => p.category)));
+    const categories = ["All", ...projectCategories.filter(c => !["All"].includes(c))];
 
     const filteredProjects = filter === "All"
-        ? PROJECTS
-        : PROJECTS.filter(project => project.category.includes(filter) || (filter === "Full-stack" && project.tech.includes("React")));
+        ? projects
+        : projects.filter(project => project.category.includes(filter) || (filter === "Full-stack" && project.tech.includes("React")));
+
+    const handleEdit = (project: Project) => {
+        setEditingProject(project);
+        setShowForm(true);
+    };
+
+    const handleFormSubmit = (data: Omit<Project, 'id' | 'createdAt' | 'updatedAt'>) => {
+        if (editingProject) {
+            updateProject(editingProject.id, data);
+        } else {
+            addProject(data);
+        }
+        setShowForm(false);
+        setEditingProject(null);
+    };
+
+    const handleDeleteConfirm = () => {
+        if (deleteTarget) {
+            deleteProject(deleteTarget.id);
+            setDeleteTarget(null);
+        }
+    };
 
     return (
         <section id="projects" className="min-h-screen py-20 bg-secondary relative">
@@ -117,6 +201,21 @@ const Projects = () => {
                             {cat}
                         </button>
                     ))}
+
+                    {/* Add Project Button (Admin Only) */}
+                    {isAdmin && (
+                        <motion.button
+                            onClick={() => {
+                                setEditingProject(null);
+                                setShowForm(true);
+                            }}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="px-6 py-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold flex items-center gap-2 shadow-lg shadow-cyan-500/20"
+                        >
+                            <FaPlus /> Add Project
+                        </motion.button>
+                    )}
                 </div>
 
                 {/* Project Grid */}
@@ -126,11 +225,65 @@ const Projects = () => {
                 >
                     <AnimatePresence>
                         {filteredProjects.map((project) => (
-                            <TiltCard key={project.id} project={project} />
+                            <TiltCard
+                                key={project.id}
+                                project={project}
+                                isAdmin={isAdmin}
+                                onEdit={() => handleEdit(project)}
+                                onDelete={() => setDeleteTarget(project)}
+                            />
                         ))}
                     </AnimatePresence>
                 </motion.div>
+
+                {filteredProjects.length === 0 && (
+                    <div className="text-center py-16 text-gray-500">
+                        <p className="text-xl">No projects in this category</p>
+                        {isAdmin && (
+                            <p className="text-sm mt-2">Click "Add Project" to create one!</p>
+                        )}
+                    </div>
+                )}
             </div>
+
+            {/* Project Form Modal */}
+            <AnimatePresence>
+                {showForm && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-auto"
+                        onClick={() => setShowForm(false)}
+                    >
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                            className="bg-secondary rounded-2xl p-8 w-full max-w-2xl border border-white/10 shadow-2xl max-h-[90vh] overflow-auto"
+                            onClick={e => e.stopPropagation()}
+                        >
+                            <h2 className="text-2xl font-bold text-white mb-6">
+                                {editingProject ? 'Edit Project' : 'Add New Project'}
+                            </h2>
+                            <ProjectForm
+                                project={editingProject}
+                                onSubmit={handleFormSubmit}
+                                onCancel={() => setShowForm(false)}
+                            />
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Delete Confirmation Modal */}
+            <DeleteConfirmModal
+                isOpen={!!deleteTarget}
+                projectTitle={deleteTarget?.title || ''}
+                onConfirm={handleDeleteConfirm}
+                onCancel={() => setDeleteTarget(null)}
+            />
         </section>
     );
 };

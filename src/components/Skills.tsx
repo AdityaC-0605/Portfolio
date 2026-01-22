@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { SKILLS } from "../utils/constants";
+import { useData } from "../context/DataContext";
 
 interface SkillLanguage {
     name: string;
@@ -7,6 +7,8 @@ interface SkillLanguage {
 }
 
 const Skills = () => {
+    const { skills } = useData();
+
     return (
         <section id="skills" className="min-h-screen py-20 bg-primary relative">
             {/* Background gradient */}
@@ -40,7 +42,7 @@ const Skills = () => {
                             Languages
                         </h3>
                         <div className="space-y-6">
-                            {SKILLS.languages.map((skill: SkillLanguage, index: number) => (
+                            {skills.languages.map((skill: SkillLanguage, index: number) => (
                                 <div key={index}>
                                     <div className="flex justify-between mb-2">
                                         <span className="text-gray-300 font-medium">{skill.name}</span>
@@ -76,7 +78,7 @@ const Skills = () => {
                                 Frameworks & Libraries
                             </h3>
                             <div className="flex flex-wrap gap-3">
-                                {SKILLS.frameworks.map((skill: string, index: number) => (
+                                {skills.frameworks.map((skill: string, index: number) => (
                                     <motion.span
                                         key={index}
                                         whileHover={{ scale: 1.05, borderColor: "rgba(168, 85, 247, 0.5)" }}
@@ -102,7 +104,7 @@ const Skills = () => {
                                 Tools & Platforms
                             </h3>
                             <div className="flex flex-wrap gap-3">
-                                {SKILLS.tools.map((skill: string, index: number) => (
+                                {skills.tools.map((skill: string, index: number) => (
                                     <motion.span
                                         key={index}
                                         whileHover={{ scale: 1.05, borderColor: "rgba(236, 72, 153, 0.5)" }}
@@ -128,7 +130,7 @@ const Skills = () => {
                                 Key Concepts
                             </h3>
                             <div className="flex flex-wrap gap-3">
-                                {SKILLS.concepts.map((skill: string, index: number) => (
+                                {skills.concepts.map((skill: string, index: number) => (
                                     <motion.span
                                         key={index}
                                         whileHover={{ scale: 1.05, borderColor: "rgba(34, 197, 94, 0.5)" }}

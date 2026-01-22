@@ -39,7 +39,7 @@ const Navbar = () => {
 
                 {/* Desktop Menu */}
                 <div className="hidden md:flex items-center space-x-8">
-                  a  <ul className="flex space-x-6">
+                    <ul className="flex space-x-6">
                         {NAV_LINKS.map((link) => (
                             <li key={link.id}>
                                 <Link
