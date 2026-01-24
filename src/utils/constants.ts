@@ -66,14 +66,14 @@ export const PROJECTS = [
 export const EXPERIENCE = [
     {
         company: "Commonwealth Bank of Australia",
-        role: "CBA Intern",
+        role: "Software Developer Intern",
         duration: "Present",
-        description: "Working on full-stack development and cloud integration using Python, AWS, React, and Node.js.",
+        description: "Worked on full-stack development and cloud integration using Python, AWS, React, and Node.js.",
     },
     {
         company: "Dayananda Sagar University",
         role: "B.Tech CSE Student",
-        duration: "2021 - 2025",
+        duration: "2022 - 2026",
         description: "Specializing in Computer Science and Engineering with a focus on AI/ML. CGPA: 8.39.",
     }
 ];

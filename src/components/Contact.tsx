@@ -6,9 +6,9 @@ import emailjs from '@emailjs/browser';
 
 // EmailJS Configuration - Replace with your actual credentials
 const EMAILJS_CONFIG = {
-    serviceId: 'YOUR_SERVICE_ID',      // e.g., 'service_abc123'
-    templateId: 'YOUR_TEMPLATE_ID',    // e.g., 'template_xyz789'
-    publicKey: 'YOUR_PUBLIC_KEY',      // e.g., 'abcdefghijk123456'
+    serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID',
+    templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'YOUR_TEMPLATE_ID',
+    publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY',
 };
 
 const Contact = () => {
@@ -16,7 +16,10 @@ const Contact = () => {
     const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
     const [errorMessage, setErrorMessage] = useState("");
 
-    const isConfigured = !EMAILJS_CONFIG.serviceId.includes('YOUR_');
+    const isConfigured = EMAILJS_CONFIG.serviceId && 
+                        EMAILJS_CONFIG.templateId && 
+                        EMAILJS_CONFIG.publicKey && 
+                        !EMAILJS_CONFIG.serviceId.includes('YOUR_');
 
     const sendEmail = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -27,12 +30,8 @@ const Contact = () => {
 
         // Check if EmailJS is configured
         if (!isConfigured) {
-            // Demo mode - simulate success
-            console.log("EmailJS not configured. Running in demo mode.");
-            setTimeout(() => {
-                setStatus("success");
-                form.current?.reset();
-            }, 1500);
+            setStatus("error");
+            setErrorMessage("Email service is not configured. Please contact me directly at the email address above.");
             return;
         }
 
@@ -117,11 +116,11 @@ const Contact = () => {
                             </div>
                         </div>
 
-                        {/* Demo Mode Notice */}
+                        {/* Configuration Notice */}
                         {!isConfigured && (
                             <div className="mt-6 p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
                                 <p className="text-yellow-400 text-sm">
-                                    <strong>Demo Mode:</strong> Contact form is in demo mode. To enable real email sending, configure EmailJS credentials in <code className="bg-yellow-500/20 px-1 rounded">Contact.tsx</code>.
+                                    <strong>Setup Required:</strong> Email sending is not configured. Please add your EmailJS credentials to the <code className="bg-yellow-500/20 px-1 rounded">.env</code> file to enable real email functionality.
                                 </p>
                             </div>
                         )}
