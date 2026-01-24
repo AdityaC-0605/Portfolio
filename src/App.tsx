@@ -24,8 +24,8 @@ const AdminButton = ({ onClick }: { onClick: () => void }) => {
       whileHover={{ scale: 1.1, rotate: 90 }}
       whileTap={{ scale: 0.9 }}
       className={`fixed bottom-6 right-6 w-12 h-12 rounded-full flex items-center justify-center shadow-lg z-40 transition-colors ${isAdmin
-          ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white'
-          : 'bg-secondary/80 backdrop-blur-sm text-gray-400 hover:text-white border border-white/10'
+        ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white'
+        : 'bg-secondary/80 backdrop-blur-sm text-gray-400 hover:text-white border border-white/10'
         }`}
       title={isAdmin ? "Open Dashboard" : "Admin Login"}
     >

@@ -7,9 +7,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#020617",   // Dark base
-        secondary: "#0f172a", // Card background
-        accent: "#a78bfa",    // Soft royal purple
+        primary: "#020617",     // Deep midnight base
+        secondary: "#0b1220",   // Elevated sections / cards
+        accent: "#5eead4",      // Mint accent (matches shirt)
+        highlight: "#facc15",   // Warm yellow (background lights)
+        "text-primary": "#e5e7eb",
+        "text-muted": "#94a3b8",
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
