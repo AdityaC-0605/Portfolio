@@ -14,13 +14,8 @@ export interface Project {
     updatedAt: number;
 }
 
-export interface SkillLanguage {
-    name: string;
-    level: number;
-}
-
 export interface Skills {
-    languages: SkillLanguage[];
+    languages: string[];
     frameworks: string[];
     tools: string[];
     concepts: string[];

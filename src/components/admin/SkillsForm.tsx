@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaPlus, FaTimes } from 'react-icons/fa';
-import type { Skills, SkillLanguage } from '../../types';
+import type { Skills } from '../../types';
 
 interface SkillsFormProps {
     skills: Skills;
@@ -10,11 +10,12 @@ interface SkillsFormProps {
 }
 
 const SkillsForm = ({ skills, onSubmit, onCancel }: SkillsFormProps) => {
-    const [languages, setLanguages] = useState<SkillLanguage[]>(skills.languages);
+    const [languages, setLanguages] = useState<string[]>(skills.languages);
     const [frameworks, setFrameworks] = useState<string[]>(skills.frameworks);
     const [tools, setTools] = useState<string[]>(skills.tools);
     const [concepts, setConcepts] = useState<string[]>(skills.concepts);
 
+    const [newLanguage, setNewLanguage] = useState('');
     const [newFramework, setNewFramework] = useState('');
     const [newTool, setNewTool] = useState('');
     const [newConcept, setNewConcept] = useState('');
@@ -29,25 +30,6 @@ const SkillsForm = ({ skills, onSubmit, onCancel }: SkillsFormProps) => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         onSubmit({ languages, frameworks, tools, concepts });
-    };
-
-    // Language handlers
-    const updateLanguage = (index: number, field: 'name' | 'level', value: string | number) => {
-        const updated = [...languages];
-        if (field === 'name') {
-            updated[index] = { ...updated[index], name: value as string };
-        } else {
-            updated[index] = { ...updated[index], level: value as number };
-        }
-        setLanguages(updated);
-    };
-
-    const addLanguage = () => {
-        setLanguages([...languages, { name: '', level: 50 }]);
-    };
-
-    const removeLanguage = (index: number) => {
-        setLanguages(languages.filter((_, i) => i !== index));
     };
 
     // Tag handlers
@@ -126,49 +108,14 @@ const SkillsForm = ({ skills, onSubmit, onCancel }: SkillsFormProps) => {
 
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Languages with levels */}
-            <div className="bg-secondary/30 rounded-xl p-4 border border-white/5">
-                <h4 className="text-md font-semibold text-white mb-3 flex items-center gap-2">
-                    <span className="w-2 h-6 bg-blue-500 rounded-full"></span>
-                    Languages
-                </h4>
-                <div className="space-y-3">
-                    {languages.map((lang, index) => (
-                        <div key={index} className="flex items-center gap-3">
-                            <input
-                                type="text"
-                                value={lang.name}
-                                onChange={e => updateLanguage(index, 'name', e.target.value)}
-                                className="flex-1 bg-primary border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-accent transition-colors"
-                                placeholder="Language name"
-                            />
-                            <input
-                                type="range"
-                                min="0"
-                                max="100"
-                                value={lang.level}
-                                onChange={e => updateLanguage(index, 'level', parseInt(e.target.value))}
-                                className="w-24 accent-accent"
-                            />
-                            <span className="text-sm text-gray-400 w-12">{lang.level}%</span>
-                            <button
-                                type="button"
-                                onClick={() => removeLanguage(index)}
-                                className="text-gray-500 hover:text-red-400 transition-colors p-1"
-                            >
-                                <FaTimes size={12} />
-                            </button>
-                        </div>
-                    ))}
-                    <button
-                        type="button"
-                        onClick={addLanguage}
-                        className="flex items-center gap-2 text-sm text-accent hover:text-cyan-300 transition-colors"
-                    >
-                        <FaPlus size={12} /> Add Language
-                    </button>
-                </div>
-            </div>
+            <TagSection
+                title="Languages"
+                color="bg-blue-500"
+                tags={languages}
+                setTags={setLanguages}
+                newValue={newLanguage}
+                setNewValue={setNewLanguage}
+            />
 
             <TagSection
                 title="Frameworks & Libraries"

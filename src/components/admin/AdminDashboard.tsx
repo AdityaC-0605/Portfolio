@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaPlus, FaEdit, FaTrash, FaSignOutAlt, FaTimes, FaRedo, FaHome, FaCode, FaBriefcase, FaTrophy, FaProjectDiagram } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaTrash, FaSignOutAlt, FaTimes, FaRedo, FaHome, FaCode, FaBriefcase, FaTrophy, FaProjectDiagram, FaSync } from 'react-icons/fa';
 import { useAuth } from '../../context/AuthContext';
 import { useData } from '../../context/DataContext';
 import type { Project, Experience, Achievement } from '../../types';
@@ -10,19 +10,21 @@ import SkillsForm from './SkillsForm';
 import ExperienceForm from './ExperienceForm';
 import AchievementForm from './AchievementForm';
 import DeleteConfirmModal from './DeleteConfirmModal';
+import DataSync from './DataSync';
 
 interface AdminDashboardProps {
     isOpen: boolean;
     onClose: () => void;
 }
 
-type TabType = 'projects' | 'hero' | 'skills' | 'experience';
+type TabType = 'projects' | 'hero' | 'skills' | 'experience' | 'sync';
 
 const TABS: { id: TabType; label: string; icon: React.ReactNode }[] = [
     { id: 'projects', label: 'Projects', icon: <FaProjectDiagram /> },
     { id: 'hero', label: 'Hero & About', icon: <FaHome /> },
     { id: 'skills', label: 'Skills', icon: <FaCode /> },
     { id: 'experience', label: 'Experience', icon: <FaBriefcase /> },
+    { id: 'sync', label: 'Data Sync', icon: <FaSync /> },
 ];
 
 const AdminDashboard = ({ isOpen, onClose }: AdminDashboardProps) => {
@@ -410,6 +412,7 @@ const AdminDashboard = ({ isOpen, onClose }: AdminDashboardProps) => {
                         {activeTab === 'hero' && renderHeroTab()}
                         {activeTab === 'skills' && renderSkillsTab()}
                         {activeTab === 'experience' && renderExperienceTab()}
+                        {activeTab === 'sync' && <DataSync />}
                     </main>
 
                     {/* Project Form Modal */}

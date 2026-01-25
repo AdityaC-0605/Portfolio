@@ -15,12 +15,12 @@ export const HERO_CONTENT = {
 
 export const SKILLS = {
     languages: [
-        { name: "Python", level: 90 },
-        { name: "Java", level: 80 },
-        { name: "C/C++", level: 75 },
-        { name: "SQL", level: 85 },
-        { name: "R", level: 70 },
-        { name: "JavaScript/TS", level: 80 },
+        "Python",
+        "Java", 
+        "C/C++",
+        "SQL",
+        "R",
+        "JavaScript/TS",
     ],
     frameworks: [
         "TensorFlow", "PyTorch", "Flask", "React", "Node.js", "Scikit-learn", "Pandas", "NumPy", "Spacy"
@@ -60,6 +60,33 @@ export const PROJECTS = [
         category: "NLP",
         github: "https://github.com",
         demo: "https://demo.com"
+    },
+    {
+        id: 4,
+        title: "NewsSense",
+        description: "A comprehensive news analysis platform that provides intelligent insights and sentiment analysis for news articles.",
+        tech: ["Python", "NLP", "Machine Learning", "Web Scraping"],
+        category: "NLP",
+        github: "https://github.com/AdityaC-0605/NewsSense",
+        demo: ""
+    },
+    {
+        id: 5,
+        title: "Realify",
+        description: "A real estate platform that leverages AI to provide property insights and market analysis for better decision making.",
+        tech: ["Python", "AI/ML", "Data Analysis", "Web Development"],
+        category: "AI/ML",
+        github: "https://github.com/AdityaC-0605/Realify",
+        demo: ""
+    },
+    {
+        id: 6,
+        title: "GlycoCheck",
+        description: "A health monitoring application that helps users track and analyze their glucose levels with intelligent recommendations.",
+        tech: ["Python", "Healthcare AI", "Data Visualization", "Mobile Development"],
+        category: "Healthcare",
+        github: "https://github.com/AdityaC-0605/GlycoCheck",
+        demo: ""
     }
 ];
 

@@ -12,7 +12,11 @@ const STORAGE_KEYS = {
     achievements: 'portfolio_achievements',
     socialLinks: 'portfolio_social',
     aboutStats: 'portfolio_about_stats',
+    version: 'portfolio_version',
 };
+
+// Version to track constants updates
+const CONSTANTS_VERSION = '1.2.3'; // Increment this when you update constants
 
 // Default about stats
 const DEFAULT_ABOUT_STATS: AboutStats[] = [
@@ -142,6 +146,11 @@ const getInitialProjects = (): Project[] => {
         if (stored) {
             const parsed = JSON.parse(stored);
             if (Array.isArray(parsed) && parsed.length > 0) {
+                // Check if constants have more projects than localStorage (indicating updates)
+                if (PROJECTS.length > parsed.length) {
+                    console.log('Constants updated with new projects, using constants');
+                    return convertLegacyProjects(PROJECTS);
+                }
                 return convertLegacyProjects(parsed);
             }
         }
@@ -191,7 +200,17 @@ const getInitialSkills = (): Skills => {
     try {
         const stored = localStorage.getItem(STORAGE_KEYS.skills);
         if (stored) {
-            return JSON.parse(stored);
+            const parsed = JSON.parse(stored);
+            // Check if the stored skills structure matches current constants structure
+            if (parsed && typeof parsed === 'object' && 
+                Array.isArray(parsed.languages) && 
+                typeof parsed.languages[0] === 'string') {
+                return parsed;
+            } else {
+                // Structure changed, use constants
+                console.log('Skills structure updated, using constants');
+                return SKILLS;
+            }
         }
     } catch (error) {
         console.error('Error loading skills:', error);
@@ -230,6 +249,26 @@ const getInitialAchievements = (): Achievement[] => {
 };
 
 export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+    // Check if constants have been updated
+    const checkConstantsVersion = () => {
+        const storedVersion = localStorage.getItem(STORAGE_KEYS.version);
+        if (storedVersion !== CONSTANTS_VERSION) {
+            console.log('Constants updated, clearing localStorage to use new data');
+            // Clear all portfolio data to use updated constants
+            Object.values(STORAGE_KEYS).forEach(key => {
+                if (key !== STORAGE_KEYS.version) {
+                    localStorage.removeItem(key);
+                }
+            });
+            localStorage.setItem(STORAGE_KEYS.version, CONSTANTS_VERSION);
+            return true;
+        }
+        return false;
+    };
+
+    // Check version on initialization
+    checkConstantsVersion();
+
     // State
     const [projects, setProjects] = useState<Project[]>(() => getInitialProjects());
     const [heroContent, setHeroContent] = useState<HeroContent>(() => getInitialHeroContent());

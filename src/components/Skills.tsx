@@ -1,11 +1,6 @@
 import { motion } from "framer-motion";
 import { useData } from "../context/DataContext";
 
-interface SkillLanguage {
-    name: string;
-    level: number;
-}
-
 const Skills = () => {
     const { skills } = useData();
 
@@ -27,12 +22,12 @@ const Skills = () => {
                     My <span className="text-blue-500">Skills</span>
                 </motion.h2>
 
-                <div className="grid md:grid-cols-2 gap-12">
+                <div className="max-w-4xl mx-auto space-y-8">
 
                     {/* Programming Languages */}
                     <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
                         className="bg-secondary/50 p-8 rounded-2xl border border-white/5 backdrop-blur-sm"
@@ -41,109 +36,98 @@ const Skills = () => {
                             <span className="w-2 h-8 bg-blue-500 rounded-full"></span>
                             Languages
                         </h3>
-                        <div className="space-y-6">
-                            {skills.languages.map((skill: SkillLanguage, index: number) => (
-                                <div key={index}>
-                                    <div className="flex justify-between mb-2">
-                                        <span className="text-gray-300 font-medium">{skill.name}</span>
-                                        <span className="text-gray-400 text-sm">{skill.level}%</span>
-                                    </div>
-                                    <div className="h-2 w-full bg-gray-700 rounded-full overflow-hidden">
-                                        <motion.div
-                                            initial={{ width: 0 }}
-                                            whileInView={{ width: `${skill.level}%` }}
-                                            viewport={{ once: true }}
-                                            transition={{ duration: 1, delay: 0.2 }}
-                                            className="h-full bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full"
-                                        />
-                                    </div>
-                                </div>
+                        <div className="flex flex-wrap gap-3">
+                            {skills.languages.map((skill: string, index: number) => (
+                                <motion.span
+                                    key={index}
+                                    whileHover={{ scale: 1.05, borderColor: "rgba(59, 130, 246, 0.5)" }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="px-4 py-2 bg-primary/80 rounded-lg text-gray-300 border border-white/5 hover:text-blue-400 transition-colors cursor-default inline-block"
+                                >
+                                    {skill}
+                                </motion.span>
                             ))}
                         </div>
                     </motion.div>
 
-                    {/* Right Column: Frameworks, Tools, Concepts */}
-                    <div className="space-y-8">
+                    {/* Frameworks */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.1 }}
+                        className="bg-secondary/50 p-8 rounded-2xl border border-white/5 backdrop-blur-sm"
+                    >
+                        <h3 className="text-2xl font-semibold mb-6 flex items-center gap-2">
+                            <span className="w-2 h-8 bg-purple-500 rounded-full"></span>
+                            Frameworks & Libraries
+                        </h3>
+                        <div className="flex flex-wrap gap-3">
+                            {skills.frameworks.map((skill: string, index: number) => (
+                                <motion.span
+                                    key={index}
+                                    whileHover={{ scale: 1.05, borderColor: "rgba(168, 85, 247, 0.5)" }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="px-4 py-2 bg-primary/80 rounded-lg text-gray-300 border border-white/5 hover:text-purple-400 transition-colors cursor-default inline-block"
+                                >
+                                    {skill}
+                                </motion.span>
+                            ))}
+                        </div>
+                    </motion.div>
 
-                        {/* Frameworks */}
-                        <motion.div
-                            initial={{ opacity: 0, x: 50 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.2 }}
-                            className="bg-secondary/50 p-8 rounded-2xl border border-white/5 backdrop-blur-sm"
-                        >
-                            <h3 className="text-2xl font-semibold mb-6 flex items-center gap-2">
-                                <span className="w-2 h-8 bg-purple-500 rounded-full"></span>
-                                Frameworks & Libraries
-                            </h3>
-                            <div className="flex flex-wrap gap-3">
-                                {skills.frameworks.map((skill: string, index: number) => (
-                                    <motion.span
-                                        key={index}
-                                        whileHover={{ scale: 1.05, borderColor: "rgba(168, 85, 247, 0.5)" }}
-                                        whileTap={{ scale: 0.95 }}
-                                        className="px-4 py-2 bg-primary/80 rounded-lg text-gray-300 border border-white/5 hover:text-purple-400 transition-colors cursor-default inline-block"
-                                    >
-                                        {skill}
-                                    </motion.span>
-                                ))}
-                            </div>
-                        </motion.div>
+                    {/* Tools */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                        className="bg-secondary/50 p-8 rounded-2xl border border-white/5 backdrop-blur-sm"
+                    >
+                        <h3 className="text-2xl font-semibold mb-6 flex items-center gap-2">
+                            <span className="w-2 h-8 bg-pink-500 rounded-full"></span>
+                            Tools & Platforms
+                        </h3>
+                        <div className="flex flex-wrap gap-3">
+                            {skills.tools.map((skill: string, index: number) => (
+                                <motion.span
+                                    key={index}
+                                    whileHover={{ scale: 1.05, borderColor: "rgba(236, 72, 153, 0.5)" }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="px-4 py-2 bg-primary/80 rounded-lg text-gray-300 border border-white/5 hover:text-pink-400 transition-colors cursor-default inline-block"
+                                >
+                                    {skill}
+                                </motion.span>
+                            ))}
+                        </div>
+                    </motion.div>
 
-                        {/* Tools */}
-                        <motion.div
-                            initial={{ opacity: 0, x: 50 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.4 }}
-                            className="bg-secondary/50 p-8 rounded-2xl border border-white/5 backdrop-blur-sm"
-                        >
-                            <h3 className="text-2xl font-semibold mb-6 flex items-center gap-2">
-                                <span className="w-2 h-8 bg-pink-500 rounded-full"></span>
-                                Tools & Platforms
-                            </h3>
-                            <div className="flex flex-wrap gap-3">
-                                {skills.tools.map((skill: string, index: number) => (
-                                    <motion.span
-                                        key={index}
-                                        whileHover={{ scale: 1.05, borderColor: "rgba(236, 72, 153, 0.5)" }}
-                                        whileTap={{ scale: 0.95 }}
-                                        className="px-4 py-2 bg-primary/80 rounded-lg text-gray-300 border border-white/5 hover:text-pink-400 transition-colors cursor-default inline-block"
-                                    >
-                                        {skill}
-                                    </motion.span>
-                                ))}
-                            </div>
-                        </motion.div>
+                    {/* Concepts */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.3 }}
+                        className="bg-secondary/50 p-8 rounded-2xl border border-white/5 backdrop-blur-sm"
+                    >
+                        <h3 className="text-2xl font-semibold mb-6 flex items-center gap-2">
+                            <span className="w-2 h-8 bg-green-500 rounded-full"></span>
+                            Key Concepts
+                        </h3>
+                        <div className="flex flex-wrap gap-3">
+                            {skills.concepts.map((skill: string, index: number) => (
+                                <motion.span
+                                    key={index}
+                                    whileHover={{ scale: 1.05, borderColor: "rgba(34, 197, 94, 0.5)" }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="px-4 py-2 bg-primary/80 rounded-lg text-gray-300 border border-white/5 hover:text-green-400 transition-colors cursor-default inline-block"
+                                >
+                                    {skill}
+                                </motion.span>
+                            ))}
+                        </div>
+                    </motion.div>
 
-                        {/* Concepts */}
-                        <motion.div
-                            initial={{ opacity: 0, x: 50 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.6 }}
-                            className="bg-secondary/50 p-8 rounded-2xl border border-white/5 backdrop-blur-sm"
-                        >
-                            <h3 className="text-2xl font-semibold mb-6 flex items-center gap-2">
-                                <span className="w-2 h-8 bg-green-500 rounded-full"></span>
-                                Key Concepts
-                            </h3>
-                            <div className="flex flex-wrap gap-3">
-                                {skills.concepts.map((skill: string, index: number) => (
-                                    <motion.span
-                                        key={index}
-                                        whileHover={{ scale: 1.05, borderColor: "rgba(34, 197, 94, 0.5)" }}
-                                        whileTap={{ scale: 0.95 }}
-                                        className="px-4 py-2 bg-primary/80 rounded-lg text-gray-300 border border-white/5 hover:text-green-400 transition-colors cursor-default inline-block"
-                                    >
-                                        {skill}
-                                    </motion.span>
-                                ))}
-                            </div>
-                        </motion.div>
-
-                    </div>
                 </div>
             </div>
         </section>
