@@ -123,7 +123,13 @@ const Contact = () => {
               >
                 {/* Netlify required fields */}
                 <input type="hidden" name="form-name" value="contact" />
-                <input type="hidden" name="bot-field" />
+                
+                {/* Honeypot field - must be visible input hidden with CSS */}
+                <div style={{ display: 'none' }}>
+                  <label>
+                    Don't fill this out if you're human: <input name="bot-field" />
+                  </label>
+                </div>
 
                 <div>
                   <label className="block text-sm text-gray-400 mb-2">
