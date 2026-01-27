@@ -11,13 +11,6 @@ const EMAILJS_CONFIG = {
     publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY',
 };
 
-// Debug logging (remove in production)
-console.log('EmailJS Config:', {
-    serviceId: EMAILJS_CONFIG.serviceId,
-    templateId: EMAILJS_CONFIG.templateId,
-    publicKey: EMAILJS_CONFIG.publicKey ? 'Set' : 'Not set'
-});
-
 const Contact = () => {
     const form = useRef<HTMLFormElement>(null);
     const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
@@ -43,18 +36,25 @@ const Contact = () => {
         }
 
         try {
-            await emailjs.sendForm(
+            const result = await emailjs.sendForm(
                 EMAILJS_CONFIG.serviceId,
                 EMAILJS_CONFIG.templateId,
                 form.current,
-                EMAILJS_CONFIG.publicKey
+                {
+                    publicKey: EMAILJS_CONFIG.publicKey,
+                }
             );
+            console.log('EmailJS Success:', result);
             setStatus("success");
             form.current.reset();
         } catch (error) {
             console.error("EmailJS Error:", error);
             setStatus("error");
-            setErrorMessage("Failed to send message. Please try again or email directly.");
+            if (error instanceof Error) {
+                setErrorMessage(`Failed to send message: ${error.message}. Please email me directly at adityachdhr555@gmail.com`);
+            } else {
+                setErrorMessage("Failed to send message. Please try again or email me directly at adityachdhr555@gmail.com");
+            }
         }
     };
 
@@ -124,13 +124,14 @@ const Contact = () => {
                         </div>
 
                         {/* Configuration Notice */}
-                        {!isConfigured && (
-                            <div className="mt-6 p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
-                                <p className="text-yellow-400 text-sm">
-                                    <strong>Setup Required:</strong> Email sending is not configured. Please add your EmailJS credentials to the <code className="bg-yellow-500/20 px-1 rounded">.env</code> file to enable real email functionality.
-                                </p>
-                            </div>
-                        )}
+                        <div className="mt-6 p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                            <p className="text-blue-400 text-sm">
+                                <strong>Having trouble with the form?</strong> You can also email me directly at{' '}
+                                <a href="mailto:adityachdhr555@gmail.com" className="underline hover:text-blue-300">
+                                    adityachdhr555@gmail.com
+                                </a>
+                            </p>
+                        </div>
                     </motion.div>
 
                     {/* Contact Form */}
@@ -161,22 +162,22 @@ const Contact = () => {
                         ) : (
                             <form ref={form} onSubmit={sendEmail} className="space-y-6">
                                 <div>
-                                    <label htmlFor="user_name" className="block text-sm text-gray-400 mb-2">Name</label>
+                                    <label htmlFor="name" className="block text-sm text-gray-400 mb-2">Name</label>
                                     <input
                                         type="text"
-                                        id="user_name"
-                                        name="user_name"
+                                        id="name"
+                                        name="name"
                                         required
                                         className="w-full bg-secondary border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent transition-colors"
                                         placeholder="John Doe"
                                     />
                                 </div>
                                 <div>
-                                    <label htmlFor="user_email" className="block text-sm text-gray-400 mb-2">Email</label>
+                                    <label htmlFor="email" className="block text-sm text-gray-400 mb-2">Email</label>
                                     <input
                                         type="email"
-                                        id="user_email"
-                                        name="user_email"
+                                        id="email"
+                                        name="email"
                                         required
                                         className="w-full bg-secondary border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent transition-colors"
                                         placeholder="john@example.com"
