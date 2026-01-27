@@ -11,6 +11,13 @@ const EMAILJS_CONFIG = {
     publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY',
 };
 
+// Debug logging (remove in production)
+console.log('EmailJS Config:', {
+    serviceId: EMAILJS_CONFIG.serviceId,
+    templateId: EMAILJS_CONFIG.templateId,
+    publicKey: EMAILJS_CONFIG.publicKey ? 'Set' : 'Not set'
+});
+
 const Contact = () => {
     const form = useRef<HTMLFormElement>(null);
     const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");

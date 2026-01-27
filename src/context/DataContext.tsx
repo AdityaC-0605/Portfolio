@@ -16,7 +16,7 @@ const STORAGE_KEYS = {
 };
 
 // Version to track constants updates
-const CONSTANTS_VERSION = '1.2.3'; // Increment this when you update constants
+const CONSTANTS_VERSION = '1.2.4'; // Increment this when you update constants
 
 // Default about stats
 const DEFAULT_ABOUT_STATS: AboutStats[] = [
