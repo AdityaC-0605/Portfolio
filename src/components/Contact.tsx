@@ -1,78 +1,13 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { FaEnvelope, FaMapMarkerAlt, FaPhone, FaPaperPlane, FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
+import { FaEnvelope, FaMapMarkerAlt, FaPhone, FaPaperPlane, FaCheckCircle } from "react-icons/fa";
 import { SOCIAL_LINKS } from "../utils/constants";
-import emailjs from '@emailjs/browser';
-
-// EmailJS Configuration - Replace with your actual credentials
-const EMAILJS_CONFIG = {
-    serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID',
-    templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'YOUR_TEMPLATE_ID',
-    publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY',
-};
 
 const Contact = () => {
-    const form = useRef<HTMLFormElement>(null);
-    const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
-    const [errorMessage, setErrorMessage] = useState("");
-
-    const isConfigured = EMAILJS_CONFIG.serviceId && 
-                        EMAILJS_CONFIG.templateId && 
-                        EMAILJS_CONFIG.publicKey && 
-                        !EMAILJS_CONFIG.serviceId.includes('YOUR_');
-
-    const sendEmail = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!form.current) return;
-
-        setStatus("submitting");
-        setErrorMessage("");
-
-        // Check if EmailJS is configured
-        if (!isConfigured) {
-            setStatus("error");
-            setErrorMessage("Email service is not configured. Please contact me directly at the email address above.");
-            return;
-        }
-
-        try {
-            // Get form data
-            const formData = new FormData(form.current);
-            const templateParams = {
-                name: formData.get('name'),
-                email: formData.get('email'),
-                message: formData.get('message'),
-                to_email: 'adityachdhr555@gmail.com'
-            };
-
-            console.log('Sending email with params:', templateParams);
-
-            const result = await emailjs.send(
-                EMAILJS_CONFIG.serviceId,
-                EMAILJS_CONFIG.templateId,
-                templateParams,
-                {
-                    publicKey: EMAILJS_CONFIG.publicKey,
-                }
-            );
-            
-            console.log('EmailJS Success:', result);
-            setStatus("success");
-            form.current.reset();
-        } catch (error) {
-            console.error("EmailJS Error:", error);
-            setStatus("error");
-            if (error instanceof Error) {
-                setErrorMessage(`Failed to send message: ${error.message}. Please email me directly at adityachdhr555@gmail.com`);
-            } else {
-                setErrorMessage("Failed to send message. Please try again or email me directly at adityachdhr555@gmail.com");
-            }
-        }
-    };
+    const [showSuccess, setShowSuccess] = useState(false);
 
     const resetForm = () => {
-        setStatus("idle");
-        setErrorMessage("");
+        setShowSuccess(false);
     };
 
     return (
@@ -153,7 +88,7 @@ const Contact = () => {
                         viewport={{ once: true }}
                         className="bg-primary p-8 rounded-2xl border border-white/5 shadow-xl"
                     >
-                        {status === "success" ? (
+                        {showSuccess ? (
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
@@ -172,7 +107,22 @@ const Contact = () => {
                                 </button>
                             </motion.div>
                         ) : (
-                            <form ref={form} onSubmit={sendEmail} className="space-y-6">
+                            <form 
+                                name="contact" 
+                                method="POST" 
+                                data-netlify="true" 
+                                netlify-honeypot="bot-field"
+                                className="space-y-6"
+                                onSubmit={() => setShowSuccess(true)}
+                            >
+                                {/* Hidden fields for Netlify */}
+                                <input type="hidden" name="form-name" value="contact" />
+                                <div style={{ display: 'none' }}>
+                                    <label>
+                                        Don't fill this out if you're human: <input name="bot-field" />
+                                    </label>
+                                </div>
+
                                 <div>
                                     <label htmlFor="name" className="block text-sm text-gray-400 mb-2">Name</label>
                                     <input
@@ -207,38 +157,14 @@ const Contact = () => {
                                     ></textarea>
                                 </div>
 
-                                {status === "error" && (
-                                    <motion.div
-                                        initial={{ opacity: 0, y: -10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        className="flex items-center gap-2 text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3"
-                                    >
-                                        <FaExclamationCircle />
-                                        <span className="text-sm">{errorMessage}</span>
-                                    </motion.div>
-                                )}
-
                                 <motion.button
                                     type="submit"
-                                    disabled={status === "submitting"}
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
-                                    className="w-full py-3 rounded-lg font-bold transition-all bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg hover:shadow-cyan-500/20 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                    className="w-full py-3 rounded-lg font-bold transition-all bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg hover:shadow-cyan-500/20 flex items-center justify-center gap-2"
                                 >
-                                    {status === "submitting" ? (
-                                        <>
-                                            <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                                            </svg>
-                                            Sending...
-                                        </>
-                                    ) : (
-                                        <>
-                                            <FaPaperPlane />
-                                            Send Message
-                                        </>
-                                    )}
+                                    <FaPaperPlane />
+                                    Send Message
                                 </motion.button>
                             </form>
                         )}
