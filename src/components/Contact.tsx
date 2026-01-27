@@ -36,14 +36,26 @@ const Contact = () => {
         }
 
         try {
-            const result = await emailjs.sendForm(
+            // Get form data
+            const formData = new FormData(form.current);
+            const templateParams = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                message: formData.get('message'),
+                to_email: 'adityachdhr555@gmail.com'
+            };
+
+            console.log('Sending email with params:', templateParams);
+
+            const result = await emailjs.send(
                 EMAILJS_CONFIG.serviceId,
                 EMAILJS_CONFIG.templateId,
-                form.current,
+                templateParams,
                 {
                     publicKey: EMAILJS_CONFIG.publicKey,
                 }
             );
+            
             console.log('EmailJS Success:', result);
             setStatus("success");
             form.current.reset();
