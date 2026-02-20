@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { FaDownload, FaUser } from "react-icons/fa";
 
 const ABOUT_STATS = [
-    { label: "CGPA", value: "8.39" },
+    { label: "CGPA", value: "8.50" },
     { label: "Projects", value: "10+" },
     { label: "Certifications", value: "5+" },
 ];

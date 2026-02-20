@@ -1,6 +1,6 @@
 # Aditya Choudhary - Portfolio Website
 
-A modern, responsive portfolio website for an AI/ML Engineer with dynamic content management, secure admin dashboard, and stunning animations.
+A modern, responsive portfolio website for an AI/ML Engineer with clean static content and rich animations.
 
 ## ✨ Features
 
@@ -11,14 +11,7 @@ A modern, responsive portfolio website for an AI/ML Engineer with dynamic conten
 - **Projects** - Dynamic project grid with 3D tilt effects
 - **Experience** - Timeline for work & education
 - **Achievements** - Awards and certifications showcase
-- **Contact** - EmailJS-powered contact form
-
-### Admin Features
-- **Secure Login** - Password-protected admin access (session-based)
-- **Full CRUD** - Add, edit, delete for all sections
-- **Live Preview** - Changes reflect immediately
-- **Data Persistence** - localStorage keeps your edits
-- **Reset Option** - Restore defaults anytime
+- **Contact** - Netlify form-powered contact form
 
 ## 🛠️ Tech Stack
 
@@ -29,8 +22,8 @@ A modern, responsive portfolio website for an AI/ML Engineer with dynamic conten
 | **Styling** | Tailwind CSS v4.1 |
 | **Animations** | Framer Motion |
 | **Icons** | React Icons |
-| **Email** | EmailJS |
-| **Storage** | localStorage (data), sessionStorage (auth) |
+| **Form Handling** | Netlify Forms |
+| **Content Source** | `src/utils/constants.ts` |
 
 ## 🎨 Theme
 
@@ -51,15 +44,6 @@ MyPortfolio/
 │       └── resume.pdf
 ├── src/
 │   ├── components/
-│   │   ├── admin/              # Admin dashboard & forms
-│   │   │   ├── AdminDashboard.tsx
-│   │   │   ├── ProjectForm.tsx
-│   │   │   ├── HeroForm.tsx
-│   │   │   ├── SkillsForm.tsx
-│   │   │   ├── ExperienceForm.tsx
-│   │   │   ├── AchievementForm.tsx
-│   │   │   └── DeleteConfirmModal.tsx
-│   │   ├── AdminLogin.tsx
 │   │   ├── Navbar.tsx
 │   │   ├── Hero.tsx
 │   │   ├── About.tsx
@@ -67,11 +51,8 @@ MyPortfolio/
 │   │   ├── Projects.tsx
 │   │   ├── Experience.tsx
 │   │   └── Contact.tsx
-│   ├── context/
-│   │   ├── AuthContext.tsx     # Session-based authentication
-│   │   └── DataContext.tsx     # Data management & persistence
 │   ├── utils/
-│   │   └── constants.ts        # Default data & config
+│   │   └── constants.ts        # Portfolio data and config
 │   ├── types.ts
 │   ├── App.tsx
 │   ├── main.tsx
@@ -102,12 +83,8 @@ npm run dev
 
 Open [http://localhost:5173](http://localhost:5173)
 
-### Admin Access
-1. Click the ⚙️ settings icon (bottom-right corner)
-2. Enter the admin password
-3. Manage all portfolio sections from the dashboard
-
-> **Note**: Admin session ends when you close the browser tab.
+### Updating Content
+Edit `/src/utils/constants.ts` to update hero text, skills, projects, experience, achievements, and social links.
 
 ## 📦 Scripts
 
@@ -118,7 +95,7 @@ Open [http://localhost:5173](http://localhost:5173)
 | `npm run preview` | Preview production build |
 | `npm run lint` | Run ESLint |
 
-## � Deployment
+## 🚀 Deployment
 
 ### Vercel (Recommended)
 ```bash
