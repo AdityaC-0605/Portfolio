@@ -63,7 +63,7 @@ const About = () => {
                         </h2>
                         <p className="text-gray-300 text-lg leading-relaxed mb-6">
                             I am a final year B.Tech student specializing in <span className="text-accent font-semibold">AI & Machine Learning</span>.
-                            Currently interning at <span className="text-white font-semibold">Commonwealth Bank of Australia</span>, I have a strong foundation in Python, Deep Learning, and Full-stack development.
+                            Completed internship at <span className="text-white font-semibold">Commonwealth Bank of Australia</span>, I have a strong foundation in Python, Deep Learning, and Full-stack development.
                             I am passionate about building intelligent solutions that solve real-world problems.
                         </p>
                         <p className="text-gray-300 text-lg leading-relaxed mb-8">
