@@ -1,8 +1,8 @@
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import { Link } from "react-scroll";
-import { useData } from "../context/DataContext";
 import { FaGithub, FaLinkedin, FaDownload } from "react-icons/fa";
 import { useState, useEffect, useCallback, useRef } from "react";
+import { HERO_CONTENT, SOCIAL_LINKS } from "../utils/constants";
 
 const TypingEffect = ({ words }: { words: string[] }) => {
     const [displayText, setDisplayText] = useState("");
@@ -62,7 +62,6 @@ const TypingEffect = ({ words }: { words: string[] }) => {
 
 
 const Hero = () => {
-    const { heroContent, socialLinks } = useData();
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
 
@@ -104,16 +103,16 @@ const Hero = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
                 >
-                    <h2 className="text-xl md:text-2xl font-light text-gray-300 mb-4">Hello, I'm</h2>
-                    <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600 mb-6">
-                        {heroContent.name}
-                    </h1>
-                    <h2 className="text-2xl md:text-4xl font-semibold text-gray-200 mb-8 h-12">
-                        I am a <TypingEffect words={heroContent.roles} />
-                    </h2>
-                    <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
-                        {heroContent.description}
-                    </p>
+                        <h2 className="text-xl md:text-2xl font-light text-gray-300 mb-4">Hello, I'm</h2>
+                        <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600 mb-6">
+                            {HERO_CONTENT.name}
+                        </h1>
+                        <h2 className="text-2xl md:text-4xl font-semibold text-gray-200 mb-8 h-12">
+                            I am a <TypingEffect words={HERO_CONTENT.roles} />
+                        </h2>
+                        <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
+                            {HERO_CONTENT.description}
+                        </p>
 
                     <div className="flex flex-col md:flex-row items-center justify-center gap-6">
                         <Link
@@ -144,10 +143,10 @@ const Hero = () => {
                     </div>
 
                     <div className="mt-12 flex justify-center gap-8 text-3xl text-gray-400">
-                        <a href={socialLinks.github} target="_blank" rel="noopener noreferrer" className="hover:text-white hover:scale-110 transition-all">
+                        <a href={SOCIAL_LINKS.github} target="_blank" rel="noopener noreferrer" className="hover:text-white hover:scale-110 transition-all">
                             <FaGithub />
                         </a>
-                        <a href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 hover:scale-110 transition-all">
+                        <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 hover:scale-110 transition-all">
                             <FaLinkedin />
                         </a>
                     </div>
