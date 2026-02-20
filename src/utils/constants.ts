@@ -101,7 +101,7 @@ export const EXPERIENCE = [
         company: "Dayananda Sagar University",
         role: "B.Tech CSE Student",
         duration: "2022 - 2026",
-        description: "Specializing in Computer Science and Engineering with a focus on AI/ML. CGPA: 8.39.",
+        description: "Specializing in Computer Science and Engineering with a focus on AI/ML. CGPA: 8.50.",
     }
 ];
 

@@ -1,12 +1,10 @@
 import { motion } from "framer-motion";
-import { useData } from "../context/DataContext";
 import { FaGraduationCap, FaBriefcase, FaTrophy } from "react-icons/fa";
+import { EXPERIENCE, ACHIEVEMENTS } from "../utils/constants";
 
 const Experience = () => {
-    const { experience, achievements } = useData();
-
-    const workExperience = experience.filter(e => e.type === 'work');
-    const education = experience.filter(e => e.type === 'education');
+    const workExperience = EXPERIENCE.filter(e => !('type' in e) || e.type === 'work');
+    const education = EXPERIENCE.filter(e => 'type' in e && e.type === 'education');
 
     return (
         <section id="experience" className="min-h-screen py-20 bg-primary relative">
@@ -32,7 +30,7 @@ const Experience = () => {
                             ) : (
                                 workExperience.map((exp, index) => (
                                     <motion.div
-                                        key={exp.id}
+                                        key={`${exp.role}-${exp.company}-${index}`}
                                         initial={{ opacity: 0, x: -20 }}
                                         whileInView={{ opacity: 1, x: 0 }}
                                         viewport={{ once: true }}
@@ -61,7 +59,7 @@ const Experience = () => {
                             ) : (
                                 education.map((exp, index) => (
                                     <motion.div
-                                        key={exp.id}
+                                        key={`${exp.role}-${exp.company}-${index}`}
                                         initial={{ opacity: 0, x: -20 }}
                                         whileInView={{ opacity: 1, x: 0 }}
                                         viewport={{ once: true }}
@@ -89,12 +87,12 @@ const Experience = () => {
                     <h3 className="text-2xl font-bold mb-8 flex items-center justify-center gap-2 text-yellow-500">
                         <FaTrophy /> Achievements
                     </h3>
-                    {achievements.length === 0 ? (
+                            {ACHIEVEMENTS.length === 0 ? (
                         <p className="text-gray-500 text-center">No achievements added yet</p>
                     ) : (
                         <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-                            {achievements.map((ach) => (
-                                <div key={ach.id} className="p-6 bg-secondary/30 rounded-xl border border-yellow-500/20 hover:bg-secondary/50 transition-colors">
+                            {ACHIEVEMENTS.map((ach, index) => (
+                                <div key={`${ach.title}-${index}`} className="p-6 bg-secondary/30 rounded-xl border border-yellow-500/20 hover:bg-secondary/50 transition-colors">
                                     <h4 className="text-lg font-bold text-yellow-200 mb-2">{ach.title}</h4>
                                     <p className="text-gray-400 text-sm">{ach.description}</p>
                                 </div>

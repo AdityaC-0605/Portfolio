@@ -10,16 +10,17 @@ import {
 import { SOCIAL_LINKS } from "../utils/constants";
 
 const Contact = () => {
-  const [showSuccess, setShowSuccess] = useState(false);
-
-  // Detect Netlify success redirect
-  useEffect(() => {
+  const [showSuccess, setShowSuccess] = useState(() => {
     const params = new URLSearchParams(window.location.search);
-    if (params.get("success") === "true") {
-      setShowSuccess(true);
+    return params.get("success") === "true";
+  });
+
+  // Clean up query params after showing success state.
+  useEffect(() => {
+    if (showSuccess) {
       window.history.replaceState({}, document.title, window.location.pathname);
     }
-  }, []);
+  }, [showSuccess]);
 
   return (
     <section
