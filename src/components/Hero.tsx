@@ -88,13 +88,13 @@ const Hero = () => {
             <div className="absolute inset-0 w-full h-full bg-primary z-0">
                 <motion.div
                     style={{ x: blob1X, y: blob1Y }}
-                    className="absolute top-20 left-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"
+                    className="absolute top-20 left-10 w-72 h-72 bg-sky-500 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob"
                 ></motion.div>
                 <motion.div
                     style={{ x: blob2X, y: blob2Y }}
-                    className="absolute top-40 right-10 w-72 h-72 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"
+                    className="absolute top-40 right-10 w-72 h-72 bg-emerald-400 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob animation-delay-2000"
                 ></motion.div>
-                <div className="absolute -bottom-8 left-1/2 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+                <div className="absolute -bottom-8 left-1/2 w-72 h-72 bg-cyan-400 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
             </div>
 
             <div className="container mx-auto px-6 z-10 text-center">
@@ -104,7 +104,7 @@ const Hero = () => {
                     transition={{ duration: 0.8 }}
                 >
                         <h2 className="text-xl md:text-2xl font-light text-gray-300 mb-4">Hello, I'm</h2>
-                        <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600 mb-6">
+                        <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-300 via-cyan-300 to-emerald-300 mb-6 headline-glow animate-gradient">
                             {HERO_CONTENT.name}
                         </h1>
                         <h2 className="text-2xl md:text-4xl font-semibold text-gray-200 mb-8 h-12">
@@ -120,7 +120,7 @@ const Hero = () => {
                             smooth={true}
                             duration={500}
                             offset={-70}
-                            className="px-8 py-3 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold shadow-lg hover:shadow-cyan-500/50 hover:-translate-y-1 transition-all cursor-pointer"
+                            className="px-8 py-3 rounded-full button-primary text-white shadow-lg hover:-translate-y-1 transition-all cursor-pointer"
                         >
                             View Work
                         </Link>
@@ -129,24 +129,24 @@ const Hero = () => {
                             smooth={true}
                             duration={500}
                             offset={-70}
-                            className="px-8 py-3 rounded-full border border-gray-600 text-gray-300 font-semibold hover:border-white hover:text-white hover:bg-white/5 transition-all cursor-pointer"
+                            className="px-8 py-3 rounded-full border border-cyan-900/60 text-gray-300 font-semibold hover:border-cyan-300/60 hover:text-white hover:bg-cyan-400/5 transition-all cursor-pointer"
                         >
                             Contact Me
                         </Link>
                         <a
                             href="/resume.pdf"
                             download
-                            className="px-8 py-3 rounded-full border border-gray-600 text-gray-300 font-semibold hover:border-accent hover:text-accent hover:bg-accent/10 transition-all flex items-center gap-2"
+                            className="px-8 py-3 rounded-full border border-emerald-900/60 text-gray-300 font-semibold hover:border-emerald-300/60 hover:text-emerald-200 hover:bg-emerald-300/10 transition-all flex items-center gap-2"
                         >
                             <FaDownload /> Resume
                         </a>
                     </div>
 
                     <div className="mt-12 flex justify-center gap-8 text-3xl text-gray-400">
-                        <a href={SOCIAL_LINKS.github} target="_blank" rel="noopener noreferrer" className="hover:text-white hover:scale-110 transition-all">
+                        <a href={SOCIAL_LINKS.github} target="_blank" rel="noopener noreferrer" className="hover:text-cyan-200 hover:scale-110 transition-all">
                             <FaGithub />
                         </a>
-                        <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 hover:scale-110 transition-all">
+                        <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-sky-300 hover:scale-110 transition-all">
                             <FaLinkedin />
                         </a>
                     </div>

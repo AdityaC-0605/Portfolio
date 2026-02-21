@@ -44,14 +44,14 @@ const TiltCard = ({ project }: { project: (typeof PROJECTS)[number] }) => {
             }}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className="bg-primary rounded-xl overflow-hidden border border-white/5 hover:border-accent/50 hover:shadow-lg hover:shadow-cyan-500/10 transition-all group perspective-1000 relative"
+            className="card-elevated rounded-xl overflow-hidden hover:border-cyan-300/45 hover:shadow-lg hover:shadow-cyan-500/15 transition-all group perspective-1000 relative"
         >
             <div
-                className="h-48 bg-gray-800 flex items-center justify-center relative overflow-hidden group-hover:bg-gray-750 transition-colors"
+                className="h-48 bg-slate-900/80 flex items-center justify-center relative overflow-hidden transition-colors"
                 style={{ transform: "translateZ(20px)" }}
             >
-                <span className="text-gray-600 text-2xl font-bold group-hover:scale-110 transition-transform duration-500">{project.title}</span>
-                <div className="absolute inset-0 bg-gradient-to-t from-primary to-transparent opacity-80" />
+                <span className="text-slate-400 text-2xl font-bold group-hover:scale-110 transition-transform duration-500">{project.title}</span>
+                <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/60 to-cyan-500/10 opacity-90" />
             </div>
 
             <div className="p-6" style={{ transform: "translateZ(30px)" }}>
@@ -62,7 +62,7 @@ const TiltCard = ({ project }: { project: (typeof PROJECTS)[number] }) => {
 
                 <div className="flex flex-wrap gap-2 mb-6">
                     {project.tech.map((tech) => (
-                        <span key={tech} className="px-3 py-1 bg-secondary text-xs rounded-full text-blue-300 border border-blue-500/20">
+                        <span key={tech} className="px-3 py-1 chip-glow text-xs rounded-full text-cyan-200">
                             {tech}
                         </span>
                     ))}
@@ -104,7 +104,7 @@ const Projects = () => {
                     viewport={{ once: true }}
                     className="text-3xl md:text-5xl font-bold text-center mb-12"
                 >
-                    Featured <span className="text-accent">Projects</span>
+                    Featured <span className="text-gradient-primary">Projects</span>
                 </motion.h2>
 
                 <div className="flex justify-center gap-4 mb-12 flex-wrap">
@@ -113,8 +113,8 @@ const Projects = () => {
                             key={cat}
                             onClick={() => setFilter(cat)}
                             className={`px-6 py-2 rounded-full border transition-all ${filter === cat
-                                ? "bg-accent text-primary border-accent font-bold"
-                                : "border-gray-600 text-gray-400 hover:border-white hover:text-white"
+                                ? "bg-gradient-to-r from-sky-400 to-emerald-300 text-primary border-transparent font-bold"
+                                : "border-cyan-900/60 text-gray-400 hover:border-cyan-300/40 hover:text-cyan-100"
                                 }`}
                         >
                             {cat}

@@ -26,12 +26,12 @@ const Navbar = () => {
 
     return (
         <nav
-            className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? "bg-primary/80 backdrop-blur-md shadow-lg py-4" : "bg-transparent py-6"
+            className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? "nav-glass shadow-lg py-4" : "bg-transparent py-6"
                 }`}
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
                 {/* Logo */}
-                <div className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent cursor-pointer">
+                <div className="text-2xl font-bold bg-gradient-to-r from-sky-300 via-cyan-300 to-emerald-300 bg-clip-text text-transparent cursor-pointer animate-gradient">
                     <Link to="home" smooth={true} duration={500}>
                         AC
                     </Link>
@@ -47,10 +47,10 @@ const Navbar = () => {
                                     smooth={true}
                                     duration={500}
                                     offset={-70}
-                                    className="text-gray-300 hover:text-accent cursor-pointer transition-colors font-medium relative group"
+                                    className="text-gray-300 hover:text-cyan-200 cursor-pointer transition-colors font-medium relative group"
                                 >
                                     {link.label}
-                                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all group-hover:w-full"></span>
+                                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-sky-400 to-emerald-300 transition-all group-hover:w-full"></span>
                                 </Link>
                             </li>
                         ))}
@@ -91,7 +91,7 @@ const Navbar = () => {
                                 duration={500}
                                 offset={-70}
                                 onClick={toggleMenu}
-                                className="text-2xl text-gray-300 hover:text-accent font-semibold cursor-pointer"
+                                className="text-2xl text-gray-300 hover:text-cyan-200 font-semibold cursor-pointer"
                             >
                                 {link.label}
                             </Link>

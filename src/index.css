@@ -5,24 +5,24 @@
 ========================= */
 @theme {
   /* Base Layer - Deep space backgrounds */
-  --color-primary-bg: #0a0a0f;        /* Deep space background */
-  --color-secondary-bg: #1a1a2e;      /* Card/section backgrounds */
+  --color-primary-bg: #050914;        /* Deep navy background */
+  --color-secondary-bg: #0d1528;      /* Card/section backgrounds */
   
   /* Accent Layer - Electric colors */
-  --color-accent-purple: #8b5cf6;     /* Electric purple - primary accent */
-  --color-accent-green: #10b981;      /* Neon green - secondary accent */
+  --color-accent-purple: #38bdf8;     /* Electric cyan-blue primary accent */
+  --color-accent-green: #34d399;      /* Emerald secondary accent */
   
   /* Support Layer - Additional colors */
-  --color-support-orange: #f59e0b;    /* Warm orange for highlights */
-  --color-support-cyan: #06b6d4;      /* Bright cyan for links */
-  --color-support-pink: #ec4899;      /* Hot pink for special elements */
-  --color-support-blue: #3b82f6;      /* Electric blue for info states */
+  --color-support-orange: #f59e0b;    /* Warm amber highlights */
+  --color-support-cyan: #22d3ee;      /* Bright cyan for links */
+  --color-support-pink: #fb7185;      /* Coral for contrast accents */
+  --color-support-blue: #60a5fa;      /* Bright blue for info states */
   
   /* Text Colors */
   --color-text-primary: #e5e7eb;      /* High contrast white text */
   --color-text-secondary: #d1d5db;    /* Medium contrast text */
   --color-text-muted: #9ca3af;        /* Low contrast text */
-  --color-text-accent: #a78bfa;       /* Purple-tinted text for highlights */
+  --color-text-accent: #7dd3fc;       /* Cyan-tinted text for highlights */
   
   /* Neutral grays for hierarchy */
   --color-neutral-800: #1f2937;
@@ -30,21 +30,21 @@
   --color-neutral-500: #6b7280;
 
   /* Primary Gradients */
-  --gradient-primary: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
-  --gradient-hero: linear-gradient(135deg, #8b5cf6 0%, #10b981 50%, #06b6d4 100%);
-  --gradient-cta: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+  --gradient-primary: linear-gradient(135deg, #38bdf8 0%, #34d399 100%);
+  --gradient-hero: linear-gradient(120deg, #60a5fa 0%, #22d3ee 45%, #34d399 100%);
+  --gradient-cta: linear-gradient(135deg, #22d3ee 0%, #34d399 100%);
   
   /* Secondary Gradients */
-  --gradient-highlight: linear-gradient(135deg, #f59e0b 0%, #ec4899 100%);
-  --gradient-card: linear-gradient(135deg, #1a1a2e 0%, #2d1b69 100%);
-  --gradient-border: linear-gradient(135deg, #8b5cf6 0%, #10b981 100%);
+  --gradient-highlight: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+  --gradient-card: linear-gradient(135deg, rgba(16, 27, 49, 0.92) 0%, rgba(8, 17, 33, 0.92) 100%);
+  --gradient-border: linear-gradient(135deg, #38bdf8 0%, #34d399 100%);
   
   /* Animated Gradients */
-  --gradient-animated: linear-gradient(270deg, #8b5cf6, #10b981, #06b6d4, #ec4899);
+  --gradient-animated: linear-gradient(270deg, #60a5fa, #22d3ee, #34d399, #f59e0b);
 
   /* UI */
-  --color-border: rgba(139, 92, 246, 0.2);
-  --color-glow: rgba(139, 92, 246, 0.25);
+  --color-border: rgba(56, 189, 248, 0.2);
+  --color-glow: rgba(34, 211, 238, 0.28);
 
   /* Font */
   --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont,
@@ -62,11 +62,8 @@
 
   body {
     background:
-      radial-gradient(
-        1200px 600px at top center,
-        rgba(139, 92, 246, 0.08),
-        transparent 60%
-      ),
+      radial-gradient(1200px 600px at top center, rgba(56, 189, 248, 0.1), transparent 60%),
+      radial-gradient(900px 500px at 85% 10%, rgba(52, 211, 153, 0.08), transparent 60%),
       var(--color-primary-bg);
 
     color: var(--color-text-primary);
@@ -85,6 +82,19 @@
     z-index: -1;
     pointer-events: none;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Animated ambient wash */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: -20%;
+    z-index: -2;
+    pointer-events: none;
+    background: radial-gradient(circle at 20% 30%, rgba(96, 165, 250, 0.12), transparent 40%),
+      radial-gradient(circle at 80% 20%, rgba(34, 211, 238, 0.1), transparent 45%),
+      radial-gradient(circle at 50% 80%, rgba(52, 211, 153, 0.09), transparent 45%);
+    animation: aurora-drift 18s ease-in-out infinite alternate;
   }
 
   /* Accessibility */
@@ -110,6 +120,13 @@
     backdrop-filter: blur(16px);
     border: 1px solid var(--color-border);
     border-radius: 16px;
+  }
+
+  .card-elevated {
+    background: linear-gradient(160deg, rgba(17, 29, 54, 0.86), rgba(10, 18, 33, 0.86));
+    border: 1px solid rgba(125, 211, 252, 0.16);
+    box-shadow: 0 14px 38px rgba(2, 6, 23, 0.42), inset 0 1px 0 rgba(125, 211, 252, 0.06);
+    backdrop-filter: blur(14px);
   }
 
   /* Heading gradient */
@@ -146,6 +163,22 @@
     background: var(--color-accent-purple);
     color: var(--color-primary-bg);
     transform: translateY(-1px);
+  }
+
+  .nav-glass {
+    background: linear-gradient(180deg, rgba(5, 9, 20, 0.88), rgba(5, 9, 20, 0.68));
+    border-bottom: 1px solid rgba(96, 165, 250, 0.18);
+    backdrop-filter: blur(14px);
+  }
+
+  .chip-glow {
+    border: 1px solid rgba(125, 211, 252, 0.2);
+    background: rgba(15, 23, 42, 0.7);
+    box-shadow: inset 0 0 0 1px rgba(125, 211, 252, 0.04);
+  }
+
+  .headline-glow {
+    text-shadow: 0 0 28px rgba(56, 189, 248, 0.24);
   }
 
   /* Gradient text utilities */
@@ -222,6 +255,10 @@
     background-size: 400% 400%;
     animation: gradient-shift 8s ease infinite;
   }
+
+  .animate-float {
+    animation: float-slow 6s ease-in-out infinite;
+  }
 }
 
 /* =========================
@@ -261,10 +298,28 @@
 
 @keyframes glow-pulse {
   0%, 100% {
-    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+    box-shadow: 0 0 20px rgba(34, 211, 238, 0.28);
   }
   50% {
-    box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+    box-shadow: 0 0 30px rgba(34, 211, 238, 0.45);
+  }
+}
+
+@keyframes aurora-drift {
+  0% {
+    transform: translate3d(-2%, -1%, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(2%, 1%, 0) scale(1.05);
+  }
+}
+
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
   }
 }
 
