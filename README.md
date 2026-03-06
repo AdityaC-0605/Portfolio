@@ -5,13 +5,21 @@ A modern, responsive portfolio website for an AI/ML Engineer with clean static c
 ## ✨ Features
 
 ### Portfolio Sections
-- **Hero** - Animated landing with interactive background & typing effect
-- **About** - Personal introduction with stats
-- **Skills** - Categorized skills with animated progress bars
-- **Projects** - Dynamic project grid with 3D tilt effects
-- **Experience** - Timeline for work & education
+- **Hero** - Premium animated landing with Aurora background & interactive roles
+- **About** - Personal introduction with smooth scroll reveals
+- **Skills** - Categorized skills with animated progress and hover states
+- **Projects** - Dynamic immersive project grid with glowing hover effects
+- **Experience** - Interactive timeline for work & education
 - **Achievements** - Awards and certifications showcase
-- **Contact** - Netlify form-powered contact form
+- **Contact** - Functional contact form with elegant minimalist inputs
+
+### Premium UI Enhancements
+- **Global Aurora Backgrounds** - Immersive animated gradients behind sections
+- **Custom Hardware-Accelerated Cursor** - Magnetic trailing dots that adapt to interactive elements
+- **Marquee Dividers** - Infinite scrolling typography dividers for visual rhythm
+- **Scroll Progress Indicator** - Dynamic glowing top bar tracking page scroll
+- **Grand Footer** - Expanded footer with large CTA and refined typography
+- **Detailed Animations** - Framer Motion-powered staggered fades and transitions
 
 ## 🛠️ Tech Stack
 
@@ -28,9 +36,10 @@ A modern, responsive portfolio website for an AI/ML Engineer with clean static c
 ## 🎨 Theme
 
 ```css
---color-primary: #020617;   /* Dark base */
---color-secondary: #0f172a; /* Card background */
---color-accent: #a78bfa;    /* Soft royal purple */
+--color-dark-900: #050505; /* Deep rich black base */
+--color-dark-800: #0A0A0A; /* Subtle contrasting black */
+--color-accent: #F5E6A0;   /* Premium gold/cream accent */
+--color-cream-50: #FEFCF3; /* Primary text color */
 ```
 
 ## 📁 Project Structure
@@ -50,7 +59,10 @@ MyPortfolio/
 │   │   ├── Skills.tsx
 │   │   ├── Projects.tsx
 │   │   ├── Experience.tsx
-│   │   └── Contact.tsx
+│   │   ├── Contact.tsx
+│   │   ├── CustomCursor.tsx
+│   │   ├── MarqueeDivider.tsx
+│   │   └── animations.tsx
 │   ├── utils/
 │   │   └── constants.ts        # Portfolio data and config
 │   ├── types.ts
@@ -120,7 +132,7 @@ npm run build
 **Aditya Choudhary**  
 AI/ML Engineer & Full Stack Developer
 
-- � [GitHub](https://github.com/AdityaC-0605)
+- 💻 [GitHub](https://github.com/AdityaC-0605)
 - 💼 [LinkedIn](https://www.linkedin.com/in/aditya-choudhary-2a36542b5/)
 - 📧 adityachdhr555@gmail.com
 
