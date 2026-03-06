@@ -1,8 +1,9 @@
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { Link } from "react-scroll";
 import { FaGithub, FaLinkedin, FaDownload } from "react-icons/fa";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { HERO_CONTENT, SOCIAL_LINKS } from "../utils/constants";
+import { FadeIn, RevealText, MagneticButton } from "./animations";
 
 const TypingEffect = ({ words }: { words: string[] }) => {
     const [displayText, setDisplayText] = useState("");
@@ -12,7 +13,6 @@ const TypingEffect = ({ words }: { words: string[] }) => {
     const subIndexRef = useRef(0);
     const reverseRef = useRef(false);
 
-    // Blinking cursor
     useEffect(() => {
         const interval = setInterval(() => {
             setBlink((prev) => !prev);
@@ -20,7 +20,6 @@ const TypingEffect = ({ words }: { words: string[] }) => {
         return () => clearInterval(interval);
     }, []);
 
-    // Typing logic using refs to avoid setState in effect lint issues
     const tick = useCallback(() => {
         const index = indexRef.current;
         const subIndex = subIndexRef.current;
@@ -60,110 +59,109 @@ const TypingEffect = ({ words }: { words: string[] }) => {
     );
 };
 
-
 const Hero = () => {
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
-
-    const handleMouseMove = (e: React.MouseEvent) => {
-        const { clientX, clientY } = e;
-        const moveX = clientX - window.innerWidth / 2;
-        const moveY = clientY - window.innerHeight / 2;
-        mouseX.set(moveX);
-        mouseY.set(moveY);
-    };
-
-    const blob1X = useTransform(mouseX, [-500, 500], [-50, 50]);
-    const blob1Y = useTransform(mouseY, [-500, 500], [-50, 50]);
-    const blob2X = useTransform(mouseX, [-500, 500], [50, -50]);
-    const blob2Y = useTransform(mouseY, [-500, 500], [50, -50]);
-
     return (
         <section
             id="home"
-            className="min-h-screen flex items-center justify-center relative overflow-hidden bg-primary"
-            onMouseMove={handleMouseMove}
+            className="relative min-h-screen flex items-center overflow-hidden pt-20 bg-dark-950"
         >
-            {/* Background Elements */}
-            <div className="absolute inset-0 w-full h-full bg-primary z-0">
-                <motion.div
-                    style={{ x: blob1X, y: blob1Y }}
-                    className="absolute top-20 left-10 w-72 h-72 bg-sky-500 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob"
-                ></motion.div>
-                <motion.div
-                    style={{ x: blob2X, y: blob2Y }}
-                    className="absolute top-40 right-10 w-72 h-72 bg-emerald-400 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob animation-delay-2000"
-                ></motion.div>
-                <div className="absolute -bottom-8 left-1/2 w-72 h-72 bg-cyan-400 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
-            </div>
+            {/* Aurora background */}
+            <div className="aurora-bg" />
 
-            <div className="container mx-auto px-6 z-10 text-center">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
-                >
-                        <h2 className="text-xl md:text-2xl font-light text-gray-300 mb-4">Hello, I'm</h2>
-                        <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-300 via-cyan-300 to-emerald-300 mb-6 headline-glow animate-gradient">
-                            {HERO_CONTENT.name}
-                        </h1>
-                        <h2 className="text-2xl md:text-4xl font-semibold text-gray-200 mb-8 h-12">
-                            I am a <TypingEffect words={HERO_CONTENT.roles} />
-                        </h2>
-                        <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
-                            {HERO_CONTENT.description}
-                        </p>
+            {/* Grid overlay */}
+            <div className="absolute inset-0 opacity-[0.025]" style={{
+                backgroundImage: "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
+                backgroundSize: "80px 80px"
+            }} />
 
-                    <div className="flex flex-col md:flex-row items-center justify-center gap-6">
-                        <Link
-                            to="projects"
-                            smooth={true}
-                            duration={500}
-                            offset={-70}
-                            className="px-8 py-3 rounded-full button-primary text-white shadow-lg hover:-translate-y-1 transition-all cursor-pointer"
+            {/* Decorative floating dots */}
+            <div className="floating-dot" style={{ top: "20%", left: "15%", animationDelay: "0s" }} />
+            <div className="floating-dot" style={{ top: "60%", left: "80%", animationDelay: "2s" }} />
+            <div className="floating-dot" style={{ top: "35%", right: "25%", animationDelay: "4s" }} />
+            <div className="floating-dot" style={{ top: "75%", left: "40%", animationDelay: "1s" }} />
+            <div className="floating-dot" style={{ top: "10%", right: "10%", animationDelay: "3s" }} />
+
+            {/* Large decorative section number */}
+            <div className="section-number">01</div>
+
+            <div className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-12 w-full pb-24">
+                <div className="grid grid-cols-1 gap-8 items-center pt-10">
+                    <div className="text-center md:text-left">
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.5 }}
+                            className="font-mono text-xs tracking-[0.3em] uppercase text-cream-50/40 mb-8 flex items-center justify-center md:justify-start gap-4"
                         >
-                            View Work
-                        </Link>
-                        <Link
-                            to="contact"
-                            smooth={true}
-                            duration={500}
-                            offset={-70}
-                            className="px-8 py-3 rounded-full border border-cyan-900/60 text-gray-300 font-semibold hover:border-cyan-300/60 hover:text-white hover:bg-cyan-400/5 transition-all cursor-pointer"
-                        >
-                            Contact Me
-                        </Link>
-                        <a
-                            href="/resume.pdf"
-                            download
-                            className="px-8 py-3 rounded-full border border-emerald-900/60 text-gray-300 font-semibold hover:border-emerald-300/60 hover:text-emerald-200 hover:bg-emerald-300/10 transition-all flex items-center gap-2"
-                        >
-                            <FaDownload /> Resume
-                        </a>
+                            <span className="w-12 h-[1px] bg-accent/40 hidden md:block"></span>
+                            Hello, I'm
+                        </motion.div>
+
+                        <RevealText delay={0.3}>
+                            <h1 className="font-display text-[clamp(3rem,9vw,8rem)] font-bold leading-[0.85] uppercase tracking-tight">
+                                {HERO_CONTENT.name.split(" ")[0]}
+                            </h1>
+                        </RevealText>
+                        <RevealText delay={0.5}>
+                            <h1 className="font-display text-[clamp(3rem,9vw,8rem)] font-bold leading-[0.85] uppercase tracking-tight text-stroke-accent drop-shadow-[0_0_30px_rgba(245,230,160,0.08)]">
+                                {HERO_CONTENT.name.split(" ").slice(1).join(" ")}
+                            </h1>
+                        </RevealText>
+
+                        <RevealText delay={0.6} className="mt-10 shrink-0 h-10 md:h-12 overflow-visible">
+                            <h2 className="font-display text-xl md:text-3xl font-bold uppercase tracking-wide text-cream-50/80 m-0 leading-none">
+                                I am a <TypingEffect words={HERO_CONTENT.roles} />
+                            </h2>
+                        </RevealText>
+
+                        <FadeIn delay={0.7} className="mt-8 max-w-xl mx-auto md:mx-0">
+                            <p className="text-cream-50/45 text-base md:text-lg leading-relaxed font-light">
+                                {HERO_CONTENT.description}
+                            </p>
+                        </FadeIn>
+
+                        <FadeIn delay={0.9} className="mt-12 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-8">
+                            <MagneticButton>
+                                <Link
+                                    to="projects"
+                                    smooth={true}
+                                    duration={500}
+                                    offset={-70}
+                                    className="cursor-none inline-flex items-center gap-3 px-10 py-5 bg-accent text-dark-950 font-mono text-xs uppercase tracking-[0.2em] font-bold hover:bg-cream-50 transition-all duration-500 rounded-full"
+                                >
+                                    View Work
+                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="rotate-45"><path d="M1 7h12m0 0L7.5 1.5M13 7l-5.5 5.5" stroke="currentColor" strokeWidth="1.5" /></svg>
+                                </Link>
+                            </MagneticButton>
+
+                            <a
+                                href="/resume.pdf"
+                                download
+                                className="cursor-none font-mono text-xs uppercase tracking-[0.2em] text-cream-50/40 hover:text-accent transition-colors line-through-animated flex flex-row items-center gap-2"
+                            >
+                                <FaDownload /> Resume
+                            </a>
+                        </FadeIn>
+
+                        <FadeIn delay={1} className="mt-16 flex justify-center md:justify-start gap-8">
+                            <a href={SOCIAL_LINKS.github} target="_blank" rel="noopener noreferrer" className="text-cream-50/20 hover:text-accent text-2xl transition-all duration-500 hover:scale-110">
+                                <FaGithub />
+                            </a>
+                            <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" className="text-cream-50/20 hover:text-accent text-2xl transition-all duration-500 hover:scale-110">
+                                <FaLinkedin />
+                            </a>
+                        </FadeIn>
                     </div>
-
-                    <div className="mt-12 flex justify-center gap-8 text-3xl text-gray-400">
-                        <a href={SOCIAL_LINKS.github} target="_blank" rel="noopener noreferrer" className="hover:text-cyan-200 hover:scale-110 transition-all">
-                            <FaGithub />
-                        </a>
-                        <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-sky-300 hover:scale-110 transition-all">
-                            <FaLinkedin />
-                        </a>
-                    </div>
-                </motion.div>
+                </div>
             </div>
 
             <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1, duration: 1 }}
-                className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-gray-500"
+                animate={{ y: [0, 8, 0] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
             >
-                <Link to="about" smooth={true} offset={-70} className="cursor-pointer">
-                    <div className="w-6 h-10 border-2 border-gray-500 rounded-full flex justify-center p-1">
-                        <div className="w-1 h-2 bg-gray-500 rounded-full animate-scroll" />
-                    </div>
-                </Link>
+                <span className="font-mono text-[8px] tracking-[0.4em] uppercase text-cream-50/15">Scroll</span>
+                <div className="w-[1px] h-12 bg-gradient-to-b from-accent/30 to-transparent" />
             </motion.div>
         </section>
     );

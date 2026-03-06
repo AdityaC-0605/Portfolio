@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "framer-motion";
 import { PROJECTS } from "../utils/constants";
 import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
+import { FadeIn, RevealText } from "./animations";
 
 const TiltCard = ({ project }: { project: (typeof PROJECTS)[number] }) => {
     const x = useMotionValue(0);
@@ -44,41 +45,43 @@ const TiltCard = ({ project }: { project: (typeof PROJECTS)[number] }) => {
             }}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className="card-elevated rounded-xl overflow-hidden hover:border-cyan-300/45 hover:shadow-lg hover:shadow-cyan-500/15 transition-all group perspective-1000 relative"
+            className="group perspective-1000 relative"
         >
-            <div
-                className="h-48 bg-slate-900/80 flex items-center justify-center relative overflow-hidden transition-colors"
-                style={{ transform: "translateZ(20px)" }}
-            >
-                <span className="text-slate-400 text-2xl font-bold group-hover:scale-110 transition-transform duration-500">{project.title}</span>
-                <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/60 to-cyan-500/10 opacity-90" />
-            </div>
-
-            <div className="p-6" style={{ transform: "translateZ(30px)" }}>
-                <h3 className="text-xl font-bold mb-2 group-hover:text-accent transition-colors">{project.title}</h3>
-                <p className="text-gray-400 text-sm mb-4 line-clamp-3 leading-relaxed">
-                    {project.description}
-                </p>
-
-                <div className="flex flex-wrap gap-2 mb-6">
-                    {project.tech.map((tech) => (
-                        <span key={tech} className="px-3 py-1 chip-glow text-xs rounded-full text-cyan-200">
-                            {tech}
-                        </span>
-                    ))}
+            <div className="border border-white/5 rounded-2xl overflow-hidden bg-dark-900/40 backdrop-blur-sm hover:border-accent/30 transition-all duration-500 hover:shadow-2xl hover:shadow-accent/5 h-full flex flex-col">
+                <div
+                    className="h-48 flex items-center justify-center relative overflow-hidden transition-colors border-b border-white/5 bg-dark-950/50"
+                    style={{ transform: "translateZ(20px)" }}
+                >
+                    <span className="text-cream-50/20 font-display text-4xl font-bold group-hover:scale-110 group-hover:text-cream-50/40 transition-all duration-500 uppercase tracking-tight px-4 text-center">{project.title.substring(0, 10)}.</span>
+                    <div className="absolute inset-0 bg-gradient-to-t from-dark-900 to-transparent opacity-90 group-hover:opacity-50 transition-opacity duration-500" />
                 </div>
 
-                <div className="flex gap-4">
-                    {project.github && (
-                        <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors">
-                            <FaGithub /> Code
-                        </a>
-                    )}
-                    {project.demo && (
-                        <a href={project.demo} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-gray-300 hover:text-accent transition-colors">
-                            <FaExternalLinkAlt /> Demo
-                        </a>
-                    )}
+                <div className="p-8 flex flex-col flex-grow" style={{ transform: "translateZ(30px)" }}>
+                    <h3 className="text-2xl font-display font-bold mb-4 group-hover:text-accent transition-colors text-cream-50">{project.title}</h3>
+                    <p className="text-cream-50/50 font-light text-sm mb-6 flex-grow leading-relaxed">
+                        {project.description}
+                    </p>
+
+                    <div className="flex flex-wrap gap-2 mb-8">
+                        {project.tech.map((tech) => (
+                            <span key={tech} className="px-3 py-1 font-mono text-[10px] uppercase tracking-[0.15em] border border-white/10 rounded-full text-cream-50/40 group-hover:border-accent/20 group-hover:text-accent/80 transition-colors">
+                                {tech}
+                            </span>
+                        ))}
+                    </div>
+
+                    <div className="flex gap-6 mt-auto">
+                        {project.github && (
+                            <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-cream-50/40 hover:text-accent transition-colors line-through-animated">
+                                <FaGithub /> Code
+                            </a>
+                        )}
+                        {project.demo && (
+                            <a href={project.demo} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-cream-50/40 hover:text-accent transition-colors line-through-animated">
+                                <FaExternalLinkAlt /> Live
+                            </a>
+                        )}
+                    </div>
                 </div>
             </div>
         </motion.div>
@@ -96,33 +99,39 @@ const Projects = () => {
         : PROJECTS.filter((project) => project.category.includes(filter) || (filter === "Full-stack" && project.tech.includes("React")));
 
     return (
-        <section id="projects" className="min-h-screen py-20 bg-secondary relative">
-            <div className="container mx-auto px-6">
-                <motion.h2
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="text-3xl md:text-5xl font-bold text-center mb-12"
-                >
-                    Featured <span className="text-gradient-primary">Projects</span>
-                </motion.h2>
+        <section id="projects" className="py-24 bg-dark-800/30 relative overflow-hidden">
+            <div className="aurora-bg" />
+            <div className="section-number">04</div>
+            <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+                <div className="mb-16 md:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8 mt-2">
+                    <div>
+                        <FadeIn>
+                            <span className="font-mono text-xs tracking-[0.3em] uppercase text-cream-50/30 mb-4 block">[selected works]</span>
+                        </FadeIn>
+                        <RevealText delay={0.1}>
+                            <h2 className="font-display text-4xl md:text-6xl font-bold uppercase">
+                                FEATURED <span className="text-accent">PROJECTS</span>
+                            </h2>
+                        </RevealText>
+                    </div>
 
-                <div className="flex justify-center gap-4 mb-12 flex-wrap">
-                    {categories.map((cat) => (
-                        <button
-                            key={cat}
-                            onClick={() => setFilter(cat)}
-                            className={`px-6 py-2 rounded-full border transition-all ${filter === cat
-                                ? "bg-gradient-to-r from-sky-400 to-emerald-300 text-primary border-transparent font-bold"
-                                : "border-cyan-900/60 text-gray-400 hover:border-cyan-300/40 hover:text-cyan-100"
-                                }`}
-                        >
-                            {cat}
-                        </button>
-                    ))}
+                    <FadeIn delay={0.3} className="flex flex-wrap gap-4">
+                        {categories.map((cat) => (
+                            <button
+                                key={cat}
+                                onClick={() => setFilter(cat)}
+                                className={`font-mono text-xs uppercase tracking-[0.2em] transition-all duration-300 ${filter === cat
+                                    ? "text-accent border-b border-accent pb-1"
+                                    : "text-cream-50/40 hover:text-cream-50 pb-1 border-b border-transparent"
+                                    }`}
+                            >
+                                {cat}
+                            </button>
+                        ))}
+                    </FadeIn>
                 </div>
 
-                <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
                     <AnimatePresence>
                         {filteredProjects.map((project) => (
                             <TiltCard key={project.id} project={project} />
@@ -131,9 +140,9 @@ const Projects = () => {
                 </motion.div>
 
                 {filteredProjects.length === 0 && (
-                    <div className="text-center py-16 text-gray-500">
-                        <p className="text-xl">No projects in this category</p>
-                    </div>
+                    <FadeIn className="text-center py-20 text-cream-50/30">
+                        <p className="font-mono text-sm uppercase tracking-[0.2em]">No projects in this category.</p>
+                    </FadeIn>
                 )}
             </div>
         </section>
